@@ -1,7 +1,7 @@
 // src/routes/index.js
 import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import { ScrollToTop } from "../components/ScrollToTop";
+// import { ScrollToTop } from "../components/common/ScrollToTop";
 
 // 페이지 모음
 import {

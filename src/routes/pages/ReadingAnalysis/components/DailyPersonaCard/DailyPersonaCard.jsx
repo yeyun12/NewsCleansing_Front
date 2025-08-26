@@ -104,10 +104,10 @@ export function getDailyPersona(usageTrend, fieldStats) {
 
   if (!hasUsage && !hasReads) {
     return {
-      name: "고요한 고양이",
+      name: "잠자는 나비",
       subtitle: "오늘 기준 (KST)",
       description: "오늘은 활동 기록이 거의 없었어요. 내일 더 풍성한 읽기를 기대해요.",
-      emojis: ["😴", "🐈‍⬛"],
+      emojis: ["😴", "🦋"],
     };
   }
 

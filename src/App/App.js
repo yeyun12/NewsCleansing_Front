@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { NavBar } from '../components/common/NavBar';
 import { TopBar } from '../components/common/TopBar';
 import './App.css';
-import { ScrollToTop } from '../components/ScrollToTop';
+import { ScrollToTop } from '../components/common/ScrollToTop';
 
 const App = () => {
   const location = useLocation();
