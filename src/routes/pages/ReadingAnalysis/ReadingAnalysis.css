@@ -1,0 +1,83 @@
+/* ===== 화면 안전 높이 & 공통 색 ===== */
+:root{
+  --topbar-h: 72px;   /* TopBar 실제 높이로 맞춰주세요(겹치면 84/96으로) */
+  --navbar-h: 72px;   /* Bottom Nav 높이 */
+  --bg: #fcfaf7;
+}
+
+/* 페이지 래퍼: 배경 한 장 + 탑/하단바 안전 여백 */
+.reading-layout {
+  background: var(--bg) !important;
+  min-height: 100dvh;
+  padding-top: var(--topbar-h) !important;
+  padding-bottom: var(--navbar-h) !important;
+  overflow: visible !important;
+}
+
+/* 기본 카드 버전(필요하면 다른 화면에서 사용) */
+.reading-analysis-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 24px auto;
+  padding: 16px 16px 24px;
+  background: var(--bg);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(80, 60, 40, 0.07);
+
+  /* 화면 높이 꽉 채우기(탑/하단바 제외) */
+  min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h));
+  box-sizing: border-box;
+  overflow: visible; /* 내부 잘림 방지 */
+}
+
+/* ===== 풀블리드: 카드 분리감 제거 + 넓게 ===== */
+.reading-analysis-container.reading-flush {
+  background: transparent !important; /* 배경은 상위에서 한 장 */
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  max-width: clamp(420px, 92vw, 680px); /* 데스크톱에서 넓게 */
+  margin: 12px auto 24px;
+  padding: 12px 12px 24px;
+}
+
+/* 타이틀/섹션 */
+.ra-main-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: #2c2010;
+}
+.ra-section { margin-bottom: 28px; }
+.ra-subtitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #7e624a;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* 필드 바 묶음 */
+.ra-fields-bars {
+  margin-top: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 내부 컴포넌트가 카드 폭을 넘지 않도록 */
+.ra-section > * { width: 100%; max-width: 100%; }
+.ra-section canvas, 
+.ra-section svg { max-width: 100%; height: auto; display: block; }
+
+/* 모바일 */
+@media (max-width: 500px) {
+  .reading-analysis-container.reading-flush {
+    max-width: 100%;
+    margin: 0;
+    padding: 25px 12px 18px;
+    min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h));
+  }
+  .ra-main-title { font-size: 20px; }
+  .ra-subtitle   { font-size: 13px; }
+}

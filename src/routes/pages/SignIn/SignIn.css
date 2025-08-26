@@ -1,0 +1,141 @@
+/* ===== 공통 레이아웃 (로그인) ===== */
+.app-layout {
+  width: 100vw;
+  min-height: 100vh;
+  background: #fcfaf7;
+  display: flex;
+  align-items: flex-start;   /* 모바일 키보드 올라올 때 겹침 방지 */
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* 카드 */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 14px rgba(130, 115, 80, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;        /* ← 핵심: 자식들이 카드 폭에 맞게 */
+  box-sizing: border-box;
+}
+
+/* 제목 */
+.auth-title {
+  font-family: 'Nunito', 'GowunBatang', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2c2010;
+  margin: 0 0 18px 0;
+  letter-spacing: 1.2px;
+}
+
+/* 폼 */
+.auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* 인풋 */
+.input {
+  width: 100%;
+  max-width: none;             /* ← 핵심: 340px 제한 제거 */
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e0db;
+  font-size: 15px;
+  background: #fcfaf7;
+  color: #382f24;
+  outline: none;
+  transition: border 0.2s;
+  box-sizing: border-box;
+}
+.input:focus { border-color: #b092e7; }
+
+.input-with-action {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+}
+
+/* 버튼 */
+.ghost-btn {
+  background: none;
+  border: none;
+  color: #b092e7;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.ghost-btn:hover { background: #f4f2ee; }
+
+.auth-btn {
+  width: 100%;                 /* ← 인풋과 폭 맞추기 */
+  background: linear-gradient(135deg, #49a7ff 75%, #65b6ff);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.auth-btn:disabled {
+  background: #b2d6f7;
+  cursor: not-allowed;
+}
+
+/* 링크/에러 */
+.link-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+.link { color: #49a7ff; text-decoration: underline; cursor: pointer; }
+
+.error-text { color: #e74c3c; font-size: 13px; margin-top: 2px; text-align: center; }
+
+/* ===== 모바일 최적화 ===== */
+@media (max-width: 500px) {
+  .app-layout {
+    padding: 0;
+  }
+  .auth-card {
+    max-width: 100vw;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 16px 12px 24px;
+  }
+  .input {
+    max-width: 100%;
+  }
+}
+
+/* ===== 안전 오버라이드(다른 CSS가 덮을 때) ===== */
+.app-layout .auth-card .input {
+  width: 100% !important;
+  max-width: none !important;
+}

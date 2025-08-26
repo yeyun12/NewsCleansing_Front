@@ -1,0 +1,55 @@
+.status-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 12px 0 18px;
+}
+
+.status-emoji {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.status-word {
+    font-size: 22px;
+    font-weight: 700;
+    color: #40331b;
+    margin-bottom: 6px;
+}
+
+.status-date {
+    font-size: 13px;
+    color: #ab9e84;
+}
+
+.status-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 12px 0 18px;
+}
+
+.status-emoji {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.status-word {
+  font-size: 22px;
+  font-weight: 700;
+  color: #40331b;
+  margin-bottom: 6px;
+}
+
+.status-date {
+  font-size: 13px;
+  color: #ab9e84;
+}
+
+/* ⬇️ 추가: 숫자 지수 표시 */
+.status-score {
+  font-size: 14px;
+  font-weight: 600;
+  color: #7f735b;
+  margin-bottom: 6px;
+}

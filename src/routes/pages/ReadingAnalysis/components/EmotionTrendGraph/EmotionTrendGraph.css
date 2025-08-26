@@ -1,0 +1,83 @@
+/* 카드 */
+.etg-card {
+  background: #f4f2ee;
+  border-radius: 14px;
+  padding: 19px 16px 15px 16px;
+  box-shadow: 0 1px 7px rgba(130, 115, 80, 0.05);
+  margin-bottom: 10px;
+}
+
+/* 헤더 */
+.etg-head {
+  margin-bottom: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.etg-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #a09489;
+}
+.etg-subtitle {
+  font-size: 13px;
+  color: #a09489;
+}
+
+/* 24개 세로 막대 래인 */
+.etg-bars-row {
+  display: flex;
+  /* align-items: flex-end; */
+  height: 60px;                /* 막대 최대 높이 */
+  gap: 4px;                    /* 막대 간격 */
+  margin-top: 6px;
+}
+
+/* 각 막대 래퍼(막대 + x축 눈금) */
+.etg-bar-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 막대 배경(트랙) */
+.etg-bar-bg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, #efede9 0%, #e7e3dd 100%);
+  overflow: hidden;
+}
+
+/* 채워지는 막대 */
+.etg-bar-fg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: #b3d8e8;          /* 원하면 브랜드 컬러로 변경 */
+  border-radius: 6px 6px 0 0;
+  transition: height 0.35s ease;
+}
+
+/* x축 라벨(0,6,12,18,23만 표시) */
+.etg-tick {
+  margin-top: 4px;
+  color: #a89781;
+  font-size: 11px;
+  line-height: 1;
+  height: 14px;
+}
+.etg-tick:not(.etg-tick-on) {
+  visibility: hidden;
+}
+
+@media (max-width: 420px) {
+  .etg-bars-row { gap: 3px; height: 52px; }
+  .etg-title { font-size: 14px; }
+  .etg-subtitle { font-size: 12px; }
+}

@@ -1,0 +1,22 @@
+/* 공통 메시지 */
+.catlist-msg {
+  color: #a89a7a;
+  font-size: 14px;
+}
+.catlist-msg.error { color: #b55; }
+
+/* 하단 더보기 */
+.catlist-more {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 10px;
+}
+.catlist-loadmore {
+  background: #efe9df;
+  border: 1px solid #e4ddd3;
+  box-shadow: 0 2px 10px rgba(80,60,40,0.06);
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.catlist-loadmore:hover { filter: brightness(0.98); }

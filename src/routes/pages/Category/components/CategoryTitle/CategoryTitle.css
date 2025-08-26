@@ -1,0 +1,35 @@
+.category-tile {
+    width: 100%;
+    max-width: 150px;
+    height: 85px;
+    background-color: #fcfaf7; 
+    border-radius: 17px;
+    border: 1px solid #e4ddd3;
+    box-shadow: 0 2px 12px rgba(130, 115, 80, 0.06);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.category-tile-icon {
+    font-size: 30px;
+    margin-bottom: 2px;
+}
+
+.category-tile-label {
+    font-size: 15px;
+    color: #4a3e27;
+    font-weight: 500;
+}
+
+.category-tile:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 6px 20px rgba(100, 60, 45, 0.12);
+    background: #e8e6d4;
+}

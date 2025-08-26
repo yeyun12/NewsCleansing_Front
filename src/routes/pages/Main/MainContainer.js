@@ -1,59 +1,155 @@
-import React, { useState } from "react";
-
-/* 
-- useNavigate 라이브러리 사용을 위해 'npm install react-router-dom' 터미널에 입력해야함.
-- useNavigate : 페이지 이동을 위한 함수, 쉽게 말하면 페이지 이동을 위한 네비게이션 같은 역할이라고 생각하면 됨.
-*/
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
-
 import MainPresenter from "./MainPresenter";
+/** ✅ ReadingAnalysis에서 쓰는 동일 로직 재사용 */
+import { getDailyPersona } from "../ReadingAnalysis/components/DailyPersonaCard/DailyPersonaCard";
 
-/* 
-    하나의 페이지를 Container와 Presenter로 분리, 역할은 아래 참고
-    * Container: 백엔드에서 데이터를 불러와 state 관리, 로직을 담당하는 함수 선언 -> 기능적인 부분 담당
-    * Presenter: 불러온 데이터를 토대로 페이지에 출력, 함수 사용 -> UI 적인 부분 담당
-*/
+const RAW = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
+const API = RAW.replace(/\/$/, "") + "/api";
 
-const MainContainer = () => {
+/* ------ user helpers ------ */
+const readUser = () => {
+  try { return JSON.parse(localStorage.getItem("user") || "null"); }
+  catch { return null; }
+};
+const getUserId = (u) => (u?.id ?? u?.user_id ?? u?.pk ?? u?.uid ?? null);
+const getNickname = (u) =>
+  u?.name || u?.nickname || u?.username ||
+  (typeof u?.email === "string" ? u.email.split("@")[0] : "독자");
 
-    const navigate = useNavigate();
-
-    /* 
-    - useState() == 렌더링될 때 데이터가 변경될 수 있도록 상태 관리하는 함수임. 저장, 관리 등
-    - ex: 아래 count, setCount 변수 참고
-        - useState(0)으로 할당되어 있는데 페이지에서 버튼을 누르면 숫자가 증가하는 느낌. 이해함? 모르겠으면 GPT 보단 구글에 검색 ㄱㄱ
-        - count == 현재 상태의 값, setCount == 현재 상태의 값을 업데이트하는 함수
-        - useState(0)이라고 선언을 했으니 현재 'count' 의 값은 0임.
-
-    */
-    const [count, setCount] = useState(0);
-
-    // 버튼 클릭 시 count를 1씩 증가하는 함수 생성.
-    const buttonClick = async() => {
-        setCount(count + 1);
-    }
-
-    return (
-    /*
-    - Container는 Presenter만 반환
-    
-    - Container에서 선언한 함수를 Presenter에게 props로 넘겨주어 사용
-    */
-        <MainPresenter 
-
-            count={count}
-            buttonClick={buttonClick}
-            /* 
-            - Presenter로 count랑 buttonClick을 props로 넘겨줘서 값을 전달
-            ** props : 부모의 값을 자식에게 값을 넘겨준다 라는 느낌인데, 쉽게 설명하면 count라는 값을 presenter로 넘겨주겠다라는 말임.
-            모르겠으면 구글에 검색 ㄱㄱ
-            */
-        />
-
-    )
+/* ------ 점수 → 이모지 ------ */
+function scoreToMood(score) {
+  const n = Number(score);
+  if (!Number.isFinite(n)) return { emoji: "🙂", word: "평온" };
+  if (n <= 20) return { emoji: "😌", word: "매우 안정" };
+  if (n <= 40) return { emoji: "😊", word: "안정" };
+  if (n <= 60) return { emoji: "🙂", word: "평온" };
+  if (n <= 80) return { emoji: "😟", word: "긴장" };
+  return { emoji: "😣", word: "불안" };
 }
 
+/* ------ API helpers ------ */
+// 오늘 KST 24칸(0~23시) 사용 트렌드 → [0..100] %
+async function fetchHoursToday(userId) {
+  const qs = new URLSearchParams({ user_id: String(userId), mode: "day", days: "1" }).toString();
+  const res = await fetch(`${API}/user/sessions/hours?${qs}`, { credentials: "include" });
+  if (!res.ok) throw new Error("hours");
+  const data = await res.json();
 
-export default MainContainer;
+  const mins = Array(24).fill(0);
+  if (Array.isArray(data?.bins)) {
+    const labels = Array.isArray(data?.labels) ? data.labels : [...Array(data.bins.length).keys()];
+    for (let i = 0; i < Math.min(labels.length, data.bins.length); i++) {
+      const h = Number(labels[i]);
+      const v = Math.max(0, Number(data.bins[i] ?? 0));
+      if (h >= 0 && h < 24) mins[h] = v;
+    }
+  } else {
+    const rows = data?.hours || data?.buckets || data?.items || [];
+    for (const r of rows) {
+      const h = Number(r.hour ?? r.label ?? r.h);
+      const v = Number(r.seconds ?? r.value ?? r.count ?? 0);
+      if (h >= 0 && h < 24) mins[h] += Math.max(0, v);
+    }
+  }
+  const avg = mins.reduce((a,b)=>a+b,0) / Math.max(1, mins.length);
+  const minutesArray = avg > 120 ? mins.map(v => Math.round(v/60)) : mins;
+  return minutesArray.map(v => {
+    const clamped = Math.min(Math.max(Number(v) || 0, 0), 60);
+    return Math.round((clamped / 60) * 100);
+  });
+}
+
+// 오늘 분야별 읽은 기사 수
+async function fetchFieldStatsToday(userId) {
+  const qs = new URLSearchParams({ metric: "reads", mode: "day", days: "1" }).toString();
+  const res = await fetch(`${API}/news/user/${userId}/field-stats?${qs}`, { credentials: "include" });
+  if (!res.ok) throw new Error("field-stats");
+  const data = await res.json();
+  const list = Array.isArray(data?.field_stats) ? data.field_stats : [];
+  const DEFAULTS = ["경제","정치","사회","문화","세계","과학"];
+  return DEFAULTS.map(label => {
+    const found = list.find(x => x.label === label);
+    return { label, count: Number(found?.count || 0) };
+  });
+}
+
+// 오늘의 기분 스냅샷
+async function fetchMoodSnapshot(userId) {
+  const res = await fetch(`${API}/news/mood/user/${userId}/snapshot?days=7`, { credentials: "include" });
+  if (!res.ok) throw new Error("mood");
+  return res.json();
+}
+
+/* ------ Component ------ */
+export default function MainContainer() {
+  const navigate = useNavigate();
+
+  // 로그인 유저
+  const user = useMemo(readUser, []);
+  const userId = getUserId(user);
+  const nickname = getNickname(user);
+
+  // 메인 요약 데이터
+  const [readsToday, setReadsToday] = useState(0);
+  const [todayEmoji, setTodayEmoji] = useState("🙂");
+  const [personaEmojis, setPersonaEmojis] = useState(["🦊","💹"]);
+
+  // 네비게이션 핸들러 (예전 로직 복구)
+  const handleClick = (page) => {
+    switch (page) {
+      case "오늘의 기사":
+        navigate("/article-list");
+        break;
+      case "독서 분석":
+        navigate("/reading-analysis");
+        break;
+      case "마음 챙김":
+        navigate("/stress-status");
+        break;
+      case "카테고리":
+        navigate("/category");
+        break;
+      default:
+        break;
+    }
+  };
+
+  // 데이터 fetch
+  useEffect(() => {
+    if (!userId) return;
+    let ignore = false;
+
+    (async () => {
+      try {
+        // 1) 분야별 → 오늘 읽은 기사 합계
+        const fieldStats = await fetchFieldStatsToday(userId);
+        if (!ignore) setReadsToday(fieldStats.reduce((s, x) => s + (x.count || 0), 0));
+
+        // 2) 오늘의 기분 이모지
+        const snap = await fetchMoodSnapshot(userId);
+        const mood = scoreToMood(snap?.score);
+        if (!ignore) setTodayEmoji(mood.emoji);
+
+        // 3) 오늘의 캐릭터
+        const trend = await fetchHoursToday(userId);
+        const persona = getDailyPersona(trend, fieldStats);
+        if (!ignore) setPersonaEmojis(persona.emojis);
+      } catch (e) {
+        console.warn("[Main] fetch fail:", e);
+      }
+    })();
+
+    return () => { ignore = true; };
+  }, [userId]);
+
+  return (
+    <MainPresenter
+      nickname={nickname}
+      readsToday={readsToday}
+      moodEmoji={todayEmoji}
+      personaEmojis={personaEmojis}
+      onButtonClick={handleClick}   
+    />
+  );
+}

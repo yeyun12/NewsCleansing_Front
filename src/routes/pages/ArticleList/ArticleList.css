@@ -1,0 +1,156 @@
+/* ===== ArticleList.css (merged) ===== */
+
+/* 컨테이너(기본 카드 버전) */
+.article-list-container {
+    width: 100%;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fcfaf7;
+    border-radius: 18px;
+    box-shadow: 0 2px 14px rgba(130, 115, 80, 0.07);
+    padding: 24px 16px 0 16px;
+    min-height: 600px;
+}
+
+/* 헤더 */
+.article-list-header {
+    text-align: left;
+    margin-bottom: 18px;
+}
+.article-list-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2b1a12;
+    margin-bottom: 8px;
+}
+.article-list-desc {
+    font-size: 14px;
+    color: #948b78;
+}
+
+/* 필터 그룹/버튼 */
+.filter-group {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.filter-btn {
+    background: #eceae4;
+    color: #673f00;
+    font-size: 15px;
+    border-radius: 17px;
+    border: none;
+    padding: 8px 17px;
+    cursor: pointer;
+    transition: background 0.16s;
+}
+.filter-btn.active {
+    background: #49a7ff;
+    color: #fff;
+    font-weight: 700;
+}
+
+/* 리스트 섹션 */
+.article-list-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Article Item */
+.article-item {
+    display: flex;
+    align-items: center;
+    background: #f8f5ee;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 10px rgba(80, 60, 40, 0.06);
+    gap: 12px;
+}
+.article-icon {
+    width: 38px;
+    height: 38px;
+    background: #e3e0d7;
+    border-radius: 8px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.article-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.article-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #422b15;
+    margin-bottom: 7px;
+}
+.article-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    align-items: center;
+}
+.article-category { color: #6a5e48; font-weight: 500; }
+.article-time     { color: #959291; }
+.article-mood.good {
+    background: #49a7ff33;
+    color: #2196F3;
+    border-radius: 8px;
+    padding: 2px 8px;
+}
+.article-mood.bad {
+    background: #ff4f4f2a;
+    color: #e63c3c;
+    border-radius: 8px;
+    padding: 2px 8px;
+}
+.no-articles {
+    text-align: center;
+    color: #c0a37c;
+    font-size: 16px;
+    margin: 30px 0;
+}
+
+/* ========= ADD: 풀블리드/뷰포트 안전 높이 보강 ========= */
+:root{
+  --topbar-h: 72px;        /* 실제 TopBar 높이로 조정 */
+  --navbar-h: 72px;        /* 실제 BottomNav 높이로 조정 */
+}
+
+/* 화면 높이 채우기(탑/바텀바 제외) */
+.article-list-container {
+  min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h));
+}
+
+/* Flush 모드: 카드 분리감 제거 + 더 넓게 */
+.article-list-container.article-flush {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  max-width: clamp(420px, 92vw, 680px);
+  padding: 12px 12px 24px;
+  margin: 12px auto 24px;
+}
+
+/* 반응형 */
+@media (max-width: 500px) {
+  .article-list-container,
+  .article-list-container.article-flush {
+    max-width: 100%;
+    margin: 0;
+    padding: 10px 12px 18px;
+    min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h));
+  }
+  .article-list-header h2 { font-size: 20px; }
+  .article-list-desc { font-size: 13px; }
+}

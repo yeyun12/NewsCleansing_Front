@@ -1,0 +1,241 @@
+/* 페이지 컨테이너 */
+.news-detail-container {
+  position: relative;
+  /* 상단 안전영역: TopBar 높이 + notch(inset) */
+  --topbar-h: 84px; /* 프로젝트 TopBar 실제 높이에 맞춰 조정 */
+  --safe-top: calc(env(safe-area-inset-top, 0px) + var(--topbar-h));
+  --safe-bottom: calc(env(safe-area-inset-bottom, 0px) + 90px); /* 하단 탭바 여백 */
+
+  padding: calc(var(--safe-top) + 8px) 14px var(--safe-bottom);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+/* TopBar 실제 높이에 맞춰 압축 */
+.news-detail-container.news-flush {
+  --topbar-h: 30px; /* 52~64px 사이로 맞춰보세요 */
+  padding-top: calc(env(safe-area-inset-top, 0px) + var(--topbar-h) + 4px);
+}
+
+
+/* 로딩/에러 중앙 고정 */
+.nd-center-abs {
+  position: absolute;
+  inset: var(--safe-top) 0 var(--safe-bottom) 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.news-skel, .news-error, .news-empty {
+  padding: 18px;
+  border-radius: 12px;
+  background: #fbf9f6;
+  border: 1px dashed #e4ddd3;
+  color: #9a8d7a;
+  text-align: center;
+  max-width: 440px;
+  width: fit-content;
+  pointer-events: auto;
+  margin: 0 auto; /* 가로 중앙 */
+  margin-left: 150px;
+  text-wrap: nowrap;
+}
+
+
+/* 읽기 폭 제한 */
+.nd-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* 헤더 */
+.nd-head { margin-bottom: 10px; }
+.nd-title {
+  font-size: 28px;
+  line-height: 1.35;
+  font-weight: 800;
+  color: #2c2010;
+  letter-spacing: .2px;
+  margin: 0 0 8px;
+  word-break: keep-all;
+}
+@media (max-width: 420px) { .nd-title { font-size: 24px; } }
+
+.nd-meta {
+  color: #8f846f;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: .1px;
+  margin-bottom: 6px;
+}
+.nd-dot { opacity: .45; }
+
+/* 히어로 이미지: TopBar 아래에 깔리게(=TopBar가 위) */
+.nd-hero {
+  position: relative;
+  z-index: 0;             /* TopBar 보다 낮게 */
+  margin: 12px 0 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #e6dfd6;
+  background: #eee9e1;
+}
+.nd-hero img { display: block; width: 100%; height: auto; }
+
+/* 액션 버튼 영역 */
+.nd-actions { margin: 6px 0 18px; }
+
+/* 본문/요약 */
+.nd-body { display: flex; flex-direction: column; gap: 10px; }
+
+.nd-section-title {
+  font-weight: 700;
+  color: #6f604b;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  letter-spacing: .2px;
+}
+
+.nd-divider {
+  height: 1px;
+  background: #efe6d9;
+  margin: 12px 0 10px;
+  border-radius: 999px;
+}
+
+/* 기본 본문 타이포 */
+.nd-paragraph,
+.nd-content {
+  font-size: 16.5px;
+  line-height: 1.9;
+  color: #2f2616;
+  word-break: keep-all;
+}
+
+/* 본문 HTML의 문단/리스트/링크 등 */
+.nd-content p { margin: 14px 0; }
+.nd-content p:first-of-type { margin-top: 2px; }
+.nd-content b, .nd-content strong { color: #2a1e0a; }
+.nd-content em, .nd-content i { color: #55462e; }
+.nd-content a {
+  color: #0b6ccf;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(11,108,207,.28);
+}
+.nd-content a:hover { border-bottom-color: rgba(11,108,207,.5); }
+
+.nd-content h2, .nd-content h3, .nd-content h4 {
+  margin: 20px 0 10px;
+  font-weight: 700;
+  color: #3b2e17;
+}
+.nd-content h2 { font-size: 18px; }
+.nd-content h3 { font-size: 17px; }
+
+.nd-content ul, .nd-content ol {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+.nd-content li { margin: 6px 0; }
+
+.nd-content blockquote {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: #f6f3ee;
+  border-left: 3px solid #d9cfc0;
+  border-radius: 8px;
+  color: #4a3e28;
+}
+
+.nd-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 12px 0;
+}
+
+/* 관련 기사 */
+.nd-related { margin-top: 20px; }
+
+/* 보조 */
+.nd-muted { color: #a89a7a; }
+/* --- Cleanse Summary block (작게, 기존 톤 유지) --- */
+.nd-summary-card{
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: #f6f2ec;
+  border: 1px solid #e7dfd2;
+  border-radius: 12px;
+}
+.nd-summary-title{
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #6d5f48;
+}
+.nd-summary-list{
+  margin: 0;
+  padding-left: 18px;
+}
+.nd-summary-list li{
+  margin: 6px 0;
+  line-height: 1.6;
+}
+.nd-mark{
+  background: #fff0a3;
+  padding: 0 .15em;
+  border-radius: .2em;
+}
+
+/* ===== Summary Card(기존) 확장: 키워드 칩 ===== */
+.nd-keywords{ margin-top: 12px; }
+.nd-key-title{
+  font-weight: 700;
+  font-size: 12px;
+  color: #8a7254;
+  opacity: .9;
+  margin-bottom: 6px;
+  letter-spacing: .02em;
+}
+.nd-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+.nd-chip{
+  background: #efe6d8;
+  border: 1px solid #e1d6c3;
+  color: #5b4a35;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1;
+  user-select: none;
+}
+.nd-chip:hover{ filter: brightness(.98); }
+
+@media (prefers-color-scheme: dark){
+  .nd-chip{
+    background:#3a3025;
+    border-color:#4a3f31;
+    color:#e8dcc8;
+  }
+}
+/* 메타 라인 내 감정 라벨 */
+.nd-sent {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;           /* 날짜 오른쪽에 살짝 여백 */
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* 톤 */
+.nd-sent.pos { background:#e7f7ee; color:#1b8f55; border-color:#bfe7d1; }
+.nd-sent.neu { background:#f1f1f1; color:#666;    border-color:#e2e2e2; }
+.nd-sent.neg { background:#fdeceb; color:#d64545; border-color:#f5b7b7; }
+
+.nd-sent-conf { font-weight:600; opacity:.85; margin-left: 2px; }

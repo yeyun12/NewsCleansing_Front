@@ -1,0 +1,133 @@
+/* ===== 화면 안전 높이(Top/Bottom 바에 맞춰 조정) ===== */
+:root{
+  --topbar-h: 72px;   /* 실제 TopBar 높이로 맞춰주세요 */
+  --navbar-h: 72px;   /* 실제 Bottom Nav 높이로 맞춰주세요 */
+}
+
+/* 페이지 래퍼: AppLayout 프레임 제거 + 전체 높이 기준 */
+.stress-layout {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  min-height: 100dvh;
+  padding-top: var(--topbar-h);
+  padding-bottom: var(--navbar-h);
+  overflow: visible !important;
+}
+
+/* 기본 카드(다른 화면에서 필요하면 사용) */
+.stress-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  background: #fcfaf7;
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(80, 60, 40, 0.07);
+  display: flex;
+  flex-direction: column;
+  overflow: visible; /* 잘림 방지 */
+  min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h));
+}
+
+/* ==== 풀블리드(분리감 제거 + 더 넓게) ==== */
+.stress-card.stress-flush {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+
+  /* 데스크톱에서 넓게, 모바일은 꽉 차게 */
+  max-width: clamp(420px, 92vw, 680px);
+  padding: 12px 12px 24px;
+  margin: 12px auto 24px;
+}
+
+/* 상단 헤더: TopBar에 가리지 않게 sticky 기준 보정 */
+.stress-header {
+  position: sticky;
+  top: var(--topbar-h);
+  z-index: 3;
+  background: #fcfaf7; /* 투명으로 하면 스크롤시 텍스트 겹침 생김 */
+  padding: 30px 0 18px;
+  text-align: center;
+}
+.stress-title { font-size: 22px; font-weight: 700; color: #2c2010; letter-spacing: 1.3px; }
+.stress-sub   { display: block; margin-top: 6px; font-size: 13px; color: #8f846d; }
+
+/* 섹션 타이틀 */
+.history-title,
+.pattern-title {
+  margin: 18px 16px 10px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #665238;
+}
+.pattern-title { margin-top: 15px; }
+
+/* 가로 히스토리 스크롤은 얇게 유지 */
+.recent-mood-list { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.recent-mood-list::-webkit-scrollbar { height: 6px; }
+
+/* 모바일 최적화 */
+@media (max-width: 500px) {
+  .stress-card.stress-flush {
+    max-width: 100%;
+    margin: 0;
+    padding: 25px 12px 18px;
+    min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h));
+  }
+}
+
+/* === FIX: 풀블리드인데 배경은 흰색으로 유지 === */
+:root {
+  --bg: #fcfaf7; /* 프로젝트에서 이미 쓰는 값이면 그대로 */
+}
+
+/* 페이지 전체 배경을 흰색으로 복원 */
+.stress-layout {
+  background: var(--bg) !important;
+}
+
+/* 컨텐츠 박스는 분리감 없도록 투명 유지 */
+.stress-card.stress-flush {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 스크롤 시 헤더 배경도 흰색으로 고정 (탑바에 안 겹치게) */
+.stress-header {
+  background: var(--bg) !important;
+}
+
+/* =======================
+   FIX: 헤더 잘림 방지
+   (StressStatus.css 맨 아래에 추가)
+======================= */
+
+/* TopBar 실제 높이에 맞춰 주세요 (72~96px 사이가 흔함) */
+:root { --topbar-h: 84px; }  /* ← TopBar가 더 크면 88/96으로 늘려보기 */
+
+/* 페이지 전체는 TopBar 높이만큼 띄우고 내부 잘림 금지 */
+.stress-layout {
+  padding-top: var(--topbar-h) !important;
+  overflow: visible !important;
+}
+
+/* 헤더가 TopBar 뒤로 숨어들지 않도록 sticky 기준 보정 */
+.stress-header {
+  position: sticky;
+  top: var(--topbar-h) !important;
+  z-index: 5;
+  background: var(--bg) !important;  /* 스크롤 시 텍스트 겹침 방지 */
+  padding-top: 6px;                  /* 윗부분 약간 여유 */
+}
+
+/* 어떤 조상도 잘라내지 않도록 안전빵 */
+.app-layout,
+.stress-card { overflow: visible !important; }
+
+/* ---- 마지막 수단: sticky 자체를 끄고 싶으면 아래 주석 해제 ---- */
+/*
+.stress-header { position: static !important; top: auto !important; }
+*/

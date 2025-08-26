@@ -1,0 +1,256 @@
+/* ====================================
+   Base
+==================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: #f5f5f0;
+  color: #3d3124;
+  font-family: 'Noto Sans KR', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* 색 변수(선택) */
+:root{
+  --bg: #fcfaf7;
+  --ink: #382f24;
+  --ink-weak: #766a4b;
+  --ink-muted: #948b78;
+  --card: #fff;
+  --shadow: 0 8px 32px rgba(80, 60, 40, 0.07);
+  --soft-shadow: 0 2px 14px rgba(130, 115, 80, 0.05);
+}
+
+/* ====================================
+   Home Container (중앙 정렬 고정)
+==================================== */
+.home-container {
+  width: 100%;              /* ← 100vw 금지 */
+  max-width: 420px;
+  min-width: 320px;
+  margin: 36px auto;        /* 좌우 auto로 센터 */
+  background: var(--bg);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  padding: 24px 18px 32px 18px;
+  min-height: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* 부모가 flex여도 가운데 오도록 */
+  align-self: center;
+}
+
+@media (max-width: 500px) {
+  .home-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0; /* 필요 시 12px로 조절 */
+  }
+}
+
+/* ====================================
+   Welcome Section
+==================================== */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.welcome-section h1 {
+  font-family: 'GowunBatang', serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 8px 0 10px;
+  letter-spacing: 1.5px;
+  color: #2c2010;
+}
+
+.welcome-section p {
+  font-size: 15px;
+  color: var(--ink-muted);
+  margin-bottom: 18px;
+}
+
+/* ====================================
+   Stats Section
+==================================== */
+.stats-section {
+  background: #f4f2ee;
+  border-radius: 18px;
+  box-shadow: var(--soft-shadow);
+  padding: 20px 15px 10px 15px;
+  margin-bottom: 24px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stats-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.stats-number {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.stats-emoji { font-size: 25px; }
+
+.stats-label {
+  font-size: 13px;
+  color: var(--ink-weak);
+  margin-top: 2px;
+}
+
+/* ====================================
+   Button Grid (타일 메뉴)
+==================================== */
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 16px;
+  width: 100%;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 0;
+}
+
+/* (선택) 타일 공통 스타일 - 컴포넌트가 사용 중일 때만 */
+.grid-tile {
+  background: #ebe7e1;
+  border-radius: 18px;
+  box-shadow: var(--soft-shadow);
+  padding: 18px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  color: #2c2010;
+  transition: transform .08s ease, box-shadow .2s ease;
+  cursor: pointer;
+}
+.grid-tile:active { transform: scale(0.98); }
+.grid-tile:hover { box-shadow: 0 4px 20px rgba(80, 60, 40, 0.08); }
+
+/* (선택) 타일 안 이모지/텍스트 */
+.grid-tile .emoji { font-size: 20px; }
+.grid-tile .label { font-size: 18px; }
+
+/* (선택) 색 변형이 필요하면 클래스 추가
+.today-article-btn { background: linear-gradient(135deg, #49a7ff 75%, #65b6ff); color:#fff; }
+.reading-analysis-btn { background: linear-gradient(135deg, #ffae43 70%, #ffc96f); color:#fff; }
+.mindfulness-btn { background: linear-gradient(135deg, #60c86c 70%, #7fe395); color:#fff; }
+.category-btn { background: linear-gradient(135deg, #b092e7 80%, #cab3f6); color:#fff; }
+*/
+/* ====== CENTER OVERRIDE (put this LAST in main.css) ====== */
+body { margin: 0; overflow-x: hidden; } /* 100vw 때문에 가로 스크롤 생기는 케이스 차단 */
+
+.home-container {
+  width: 100% !important;            /* 100vw 무력화 */
+  max-width: 420px !important;
+  min-width: 320px;
+  margin-left: auto !important;      /* 좌우 auto로 센터 */
+  margin-right: auto !important;
+  align-self: center !important;     /* 부모가 flex여도 가운데 */
+  justify-self: center !important;   /* 부모가 grid여도 가운데 */
+}
+
+@media (max-width: 500px) {
+  .home-container {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+/* 자식 요소가 100vw 쓰면서 넘치는 경우 방지(안전장치) */
+.home-container, .home-container * {
+  max-width: 100%;
+}
+
+/* ===== MAIN: TopBar에 잘림 방지 + 화면 높이 꽉 채우기 (붙여넣기) ===== */
+:root{
+  --topbar-h: 72px;   /* TopBar 실제 높이로 맞춰줘요. 여전히 겹치면 84/96으로 ↑ */
+  --navbar-h: 72px;   /* BottomNav 높이 */
+}
+
+/* 메인 페이지의 최상위 래퍼 여유 공간 확보 */
+.app-layout {
+  min-height: 100dvh;
+  padding-top: var(--topbar-h) !important;     /* 탑바만큼 아래로 밀기 */
+  padding-bottom: var(--navbar-h) !important;  /* 네브에 안 가리게 */
+  overflow: visible !important;                /* 조상 overflow로 잘림 방지 */
+}
+
+/* 홈 카드가 화면을 최소한 꽉 채우도록 */
+.home-container {
+  /* 기존 margin-top 때문에 이격이 과해질 수 있어 0으로 초기화 */
+  margin-top: 0 !important;
+
+  /* 어떤 화면에서도 흰 배경이 끊기지 않게 */
+  min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h)) !important;
+
+  /* 내부 요소 잘림 방지 */
+  overflow: visible !important;
+}
+
+/* ===== 메인: 배경 한 장으로 보이기 + 탑/하단바 안전 여백 ===== */
+:root{
+  --topbar-h: 72px;   /* TopBar 실제 높이로 맞춰줘 (겹치면 84/96으로 ↑) */
+  --navbar-h: 72px;   /* BottomNav 높이 */
+  --page-bg: var(--bg); /* 페이지 배경(=흰톤) */
+}
+
+/* 페이지 전체 배경을 흰색으로 */
+.main-layout {
+  background: var(--page-bg) !important;
+  min-height: 100dvh;
+  padding-top: var(--topbar-h) !important;     /* 탑바에 안 잘리게 */
+  padding-bottom: var(--navbar-h) !important;  /* 네브에 안 가리게 */
+  overflow: visible !important;
+}
+
+/* 카드(홈 컨테이너)는 투명화해서 분리감 제거 */
+.home-container.home-flush {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  /* 넓게 보이도록 */
+  max-width: clamp(420px, 92vw, 680px);
+  margin: 12px auto 24px;
+  padding: 16px 12px 24px;
+
+  /* 어떤 화면에서도 흰 배경이 끊기지 않게 */
+  min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h)) !important;
+
+  overflow: visible !important;
+}
+
+/* (선택) sticky 헤더 쓸 때 배경 겹침 방지용 */
+.page-header.sticky,
+.welcome-section.sticky { background: var(--page-bg) !important; }

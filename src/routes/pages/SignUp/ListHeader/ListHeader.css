@@ -1,0 +1,43 @@
+/* 상단 헤더 */
+.clist-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.clist-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c2010;
+  letter-spacing: .6px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+/* 검색 폼 */
+.clist-search {
+  display: flex;
+  gap: 6px;
+}
+.clist-search input {
+  background: #ebe7e2;
+  border: 1px solid #e4ddd3;
+  border-radius: 12px;
+  padding: 8px 10px;
+  min-width: 200px;
+  outline: none;
+}
+.clist-search input:focus {
+  background: #f6f3ef;
+  box-shadow: 0 0 0 3px rgba(180, 150, 120, .12);
+}
+.clist-search button {
+  background: #d9cfc2;
+  border: 1px solid #cfbfa9;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.clist-search button:hover { filter: brightness(0.97); }

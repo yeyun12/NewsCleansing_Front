@@ -1,0 +1,102 @@
+/* ===== 화면 안전 높이 & 공통 색 ===== */
+:root{
+  --topbar-h: 72px;   /* 실제 TopBar 높이에 맞춰 조정(겹치면 84/96) */
+  --navbar-h: 72px;   /* Bottom Nav 높이 */
+  --bg: #fcfaf7;
+}
+
+/* 페이지 래퍼: 배경은 한 장으로(흰), 상/하단바에 안 잘리게 */
+.category-layout {
+  background: var(--bg) !important;
+  min-height: 100dvh;
+  padding-top: var(--topbar-h) !important;
+  padding-bottom: var(--navbar-h) !important;
+  overflow: visible !important;
+}
+
+/* 기본 카드 버전(다른 페이지에서 필요하면 사용) */
+.category-page-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 24px auto;
+  padding: 18px 16px 28px;
+  background: var(--bg);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(80, 60, 40, 0.07);
+  box-sizing: border-box;
+
+  /* 화면 높이 꽉 채우기(탑/하단바 제외) */
+  min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h));
+  overflow: visible;
+}
+
+/* ===== 풀블리드: 카드 분리감 제거 + 넓게 ===== */
+.category-page-container.category-flush {
+  background: transparent !important; /* 배경은 상위에서 한 장 */
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  max-width: clamp(420px, 92vw, 680px); /* 데스크톱에서 넓게 */
+  margin: 12px auto 24px;
+  padding: 12px 12px 24px;
+}
+
+/* 타이틀 영역 */
+.category-title-box {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.category-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c2010;
+  margin-bottom: 6px;
+  letter-spacing: 1.2px;
+}
+.category-desc {
+  font-size: 14px;
+  color: #948b78;
+  margin-bottom: 11px;
+}
+.category-search {
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 14px;
+  border-radius: 24px;
+  border: none;
+  background: #ebe7e2;
+}
+
+/* 그리드 */
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  justify-items: center;
+  margin-bottom: 24px;
+}
+
+/* 하단 안내 */
+.category-bottom-desc {
+  text-align: center;
+  font-size: 13px;
+  color: #a89a7a;
+  margin: 8px 0 4px;
+  padding: 10px 8px;
+}
+
+/* 모바일 */
+@media (max-width: 500px) {
+  .category-page-container.category-flush {
+    max-width: 100%;
+    margin: 0;
+    padding: 10px 12px 18px;
+    min-height: calc(100dvh - var(--topbar-h) - var(--navbar-h));
+  }
+  .category-title { font-size: 20px; }
+  .category-desc  { font-size: 13px; }
+  .category-search{ font-size: 13px; padding: 9px 11px; }
+  .category-grid  { grid-template-columns: 1fr 1fr; gap: 10px; }
+}
+
+
