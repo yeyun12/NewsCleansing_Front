@@ -4,7 +4,15 @@ import MainPresenter from "./MainPresenter";
 /** ✅ ReadingAnalysis에서 쓰는 동일 로직 재사용 */
 import { getDailyPersona } from "../ReadingAnalysis/components/DailyPersonaCard/DailyPersonaCard";
 
-const RAW = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
+// const RAW = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
+export const RAW = (
+  process.env.REACT_APP_API_BASE_URL ||         // 우리가 Vercel에 넣은 키
+  process.env.REACT_APP_API_BASE ||             // 기존 키가 쓰인 곳 대비
+  (process.env.NODE_ENV === 'production'
+    ? 'https://newscleansing-back.onrender.com' // 배포 기본
+    : 'http://127.0.0.1:8000')                  // 로컬 기본
+).replace(/\/$/, '');
+
 const API = RAW.replace(/\/$/, "") + "/api";
 
 /* ------ user helpers ------ */

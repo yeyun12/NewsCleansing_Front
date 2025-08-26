@@ -3,7 +3,13 @@ import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import CategoryListPresenter from "./CategoryListPresenter";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
+export const API_BASE = (
+  process.env.REACT_APP_API_BASE_URL ||         // 우리가 Vercel에 넣은 키
+  process.env.REACT_APP_API_BASE ||             // 기존 키가 쓰인 곳 대비
+  (process.env.NODE_ENV === 'production'
+    ? 'https://newscleansing-back.onrender.com' // 배포 기본
+    : 'http://127.0.0.1:8000')                  // 로컬 기본
+).replace(/\/$/, '');
 
 // 백엔드 Article.category 스펠링 보정(동의어)
 const CATEGORY_SYNONYMS = {
